@@ -61,12 +61,12 @@ public class MainActivity extends Activity {
             Shell.SU.run("cp /data/data/com.google.android.gsf/databases/gservices.db /data/data/com.r3pwn.LetMeMakeYouSomeSandwiches/databases/gservices.db\n");
             SQLiteDatabase db = openOrCreateDatabase("gservices.db", Context.MODE_WORLD_READABLE, null);
             // All your overrides are belong to me.
-            // If the toggle button is on
+            // If the toggle button is on already
             if (toggleButton.isChecked()) {
                 // Let's disable debugging.
                 db.execSQL("UPDATE overrides SET value='false' WHERE name='" + database_name + "';");
             } else {
-                // It's on, so we'll enable debugging.
+                // It's off, so we'll enable debugging.
                 db.execSQL("INSERT INTO overrides (name, value) VALUES ('" + database_name + "', 'true');");
                 db.execSQL("UPDATE overrides SET value='true' WHERE name='" + database_name + "';");
             }
