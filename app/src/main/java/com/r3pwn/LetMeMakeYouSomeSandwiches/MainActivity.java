@@ -2,12 +2,9 @@ package com.r3pwn.LetMeMakeYouSomeSandwiches;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
@@ -36,61 +33,6 @@ public class MainActivity extends Activity {
     public MainActivity() {
         mainActivity = this;
     }
-
-    class bridge implements View.OnClickListener {
-        private ToggleButton toggleButton;
-        private String database_name;
-        private String editor_name;
-        private String app_name;
-
-        public bridge(ToggleButton toggleButton, String database_name, String editor_name, String app_name) {
-            this.toggleButton = toggleButton;
-            this.database_name = database_name;
-            this.editor_name = editor_name;
-            this.app_name = app_name;
-        }
-
-        @Override
-        public void onClick(View view) {
-            // Disable buttons
-            disableAll();
-
-            // Grab preferences
-            Editor editor = defaultSharedPreferences.edit();
-
-            // Look at me. I'm the captain now.
-            Shell.SU.run("cp /data/data/com.google.android.gsf/databases/gservices.db /data/data/com.r3pwn.LetMeMakeYouSomeSandwiches/databases/gservices.db\n");
-            SQLiteDatabase db = openOrCreateDatabase("gservices.db", Context.MODE_WORLD_READABLE, null);
-            // All your overrides are belong to me.
-            // If the toggle button is on already
-            if (toggleButton.isChecked()) {
-                // Let's disable debugging.
-                db.execSQL("DELETE FROM overrides WHERE name='" + database_name + "';");
-            } else {
-                // It's off, so we'll enable debugging.
-				try {
-                	db.execSQL("INSERT INTO overrides (name, value) VALUES ('" + database_name + "', 'true');");
-				} catch (android.database.SQLException sqle)
-				{
-					// if this errors out, then that means the key is already in the database.
-				}
-                db.execSQL("UPDATE overrides SET value='true' WHERE name='" + database_name + "';");
-            }
-            // Just kidding. You can have it back now.
-            Shell.SU.run("cp /data/data/com.r3pwn.LetMeMakeYouSomeSandwiches/databases/gservices.db /data/data/com.google.android.gsf/databases/gservices.db\n");
-            Shell.SU.run("rm -f /data/data/com.r3pwn.LetMeMakeYouSomeSandwiches/databases/*\n");
-            // Here in Android land, we call the following "reloading".
-            Shell.SU.run("am force-stop com.google.android.gsf\n");
-            Shell.SU.run("am force-stop " + app_name + "\n");
-
-            editor.putInt(editor_name, 1);
-            editor.commit();
-            // Re-enable buttons
-            enableAll();
-            Toast.makeText(mainActivity.getApplicationContext(), "Changes applied.", Toast.LENGTH_SHORT).show();
-        }
-    }
-
 
     @Override
     public void onCreate(Bundle bundle) {
@@ -186,14 +128,14 @@ public class MainActivity extends Activity {
         }
 
 
-        finskyDebugToggle.setOnClickListener(new bridge(finskyDebug2Toggle, "finsky.debug_options_enabled", "finsky_status", "com.android.vending"));
-        finskyDebug2Toggle.setOnClickListener(new bridge(finskyDebugToggle, "finsky.dcb_debug_options_enabled", "finsky2_status", "com.android.vending"));
-        babelDebugToggle.setOnClickListener(new bridge(babelDebugToggle, "babel_debugging", "babel_status", "com.google.android.talk"));
-        babelGVToggle.setOnClickListener(new bridge(babelGVToggle, "babel_gv_sms", "babelgv_status", "com.google.android.talk"));
-        musicDebugToggle.setOnClickListener(new bridge(musicDebugToggle, "music_debug_logs_enabled", "music_status", "com.google.android.music"));
-        gamesDogfoodToggle.setOnClickListener(new bridge(gamesDogfoodToggle, "games.play_games_dogfood", "games_status", "com.google.android.play.games"));
-        moviesDogfoodToggle.setOnClickListener(new bridge(moviesDogfoodToggle, "videos:dogfood_enabled", "movies_status", "com.google.android.videos"));
-        booksDebugToggle.setOnClickListener(new bridge(booksDebugToggle, "books:show_testing_ui", "books_status", "com.google.android.apps.books"));
+        finskyDebugToggle.setOnClickListener(new UpdateDatabase(this, finskyDebug2Toggle, "finsky.debug_options_enabled", "finsky_status", "com.android.vending"));
+        finskyDebug2Toggle.setOnClickListener(new UpdateDatabase(this, finskyDebugToggle, "finsky.dcb_debug_options_enabled", "finsky2_status", "com.android.vending"));
+        babelDebugToggle.setOnClickListener(new UpdateDatabase(this, babelDebugToggle, "babel_debugging", "babel_status", "com.google.android.talk"));
+        babelGVToggle.setOnClickListener(new UpdateDatabase(this, babelGVToggle, "babel_gv_sms", "babelgv_status", "com.google.android.talk"));
+        musicDebugToggle.setOnClickListener(new UpdateDatabase(this, musicDebugToggle, "music_debug_logs_enabled", "music_status", "com.google.android.music"));
+        gamesDogfoodToggle.setOnClickListener(new UpdateDatabase(this, gamesDogfoodToggle, "games.play_games_dogfood", "games_status", "com.google.android.play.games"));
+        moviesDogfoodToggle.setOnClickListener(new UpdateDatabase(this, moviesDogfoodToggle, "videos:dogfood_enabled", "movies_status", "com.google.android.videos"));
+        booksDebugToggle.setOnClickListener(new UpdateDatabase(this, booksDebugToggle, "books:show_testing_ui", "books_status", "com.google.android.apps.books"));
         // Launch newsstand class
         newsstandButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -206,7 +148,6 @@ public class MainActivity extends Activity {
             }
         });
     }
-
     public void disableAll() {
         finskyDebugToggle.setEnabled(false);
         finskyDebug2Toggle.setEnabled(false);
