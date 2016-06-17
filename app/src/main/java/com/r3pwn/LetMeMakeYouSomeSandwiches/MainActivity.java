@@ -57,21 +57,21 @@ public class MainActivity extends Activity {
             Editor editor = defaultSharedPreferences.edit();
 
             // Look at me. I'm the captain now.
-            Shell.SU.run("cp /data/data/com.google.android.gsf/databases/gservices.db /data/data/com.r3pwn.configurator/databases/gservices.db\n");
+            Shell.SU.run("cp /data/data/com.google.android.gsf/databases/gservices.db /data/data/com.r3pwn.LetMeMakeYouSomeSandwiches/databases/gservices.db\n");
             SQLiteDatabase db = openOrCreateDatabase("gservices.db", Context.MODE_WORLD_READABLE, null);
             // All your overrides are belong to me.
             // If the toggle button is on
             if (toggleButton.isChecked()) {
-                // Let's disable debugging.
-                db.execSQL("UPDATE overrides SET value='false' WHERE name='" + database_name + "';");
-            } else {
-                // It's not on, so we'll enable debugging.
+                // It's on, so we'll enable debugging.
                 db.execSQL("INSERT INTO overrides (name, value) VALUES ('" + database_name + "', 'true');");
                 db.execSQL("UPDATE overrides SET value='true' WHERE name='" + database_name + "';");
+            } else {
+                // Let's disable debugging.
+                db.execSQL("UPDATE overrides SET value='false' WHERE name='" + database_name + "';");
             }
             // Just kidding. You can have it back now.
-            Shell.SU.run("cp /data/data/com.r3pwn.configurator/databases/gservices.db /data/data/com.google.android.gsf/databases/gservices.db\n");
-            Shell.SU.run("rm -f /data/data/com.r3pwn.configurator/databases/gservices.db\n");
+            Shell.SU.run("cp /data/data/com.r3pwn.LetMeMakeYouSomeSandwiches/databases/gservices.db /data/data/com.google.android.gsf/databases/gservices.db\n");
+            Shell.SU.run("rm -f /data/data/com.r3pwn.LetMeMakeYouSomeSandwiches/databases/gservices.db\n");
             // Here in Android land, we call the following "reloading".
             Shell.SU.run("am force-stop com.google.android.gsf\n");
             Shell.SU.run("am force-stop " + app_name + "\n");
@@ -212,13 +212,13 @@ public class MainActivity extends Activity {
     }
 
     public void enableAll() {
-        finskyDebugToggle.setEnabled(false);
-        finskyDebug2Toggle.setEnabled(false);
-        babelDebugToggle.setEnabled(false);
-        babelGVToggle.setEnabled(false);
-        musicDebugToggle.setEnabled(false);
-        gamesDogfoodToggle.setEnabled(false);
-        moviesDogfoodToggle.setEnabled(false);
-        booksDebugToggle.setEnabled(false);
+        finskyDebugToggle.setEnabled(true);
+        finskyDebug2Toggle.setEnabled(true);
+        babelDebugToggle.setEnabled(true);
+        babelGVToggle.setEnabled(true);
+        musicDebugToggle.setEnabled(true);
+        gamesDogfoodToggle.setEnabled(true);
+        moviesDogfoodToggle.setEnabled(true);
+        booksDebugToggle.setEnabled(true);
     }
 }
