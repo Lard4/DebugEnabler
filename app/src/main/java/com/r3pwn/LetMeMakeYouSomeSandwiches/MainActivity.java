@@ -16,6 +16,7 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import eu.chainfire.libsuperuser.Shell;
+import android.database.*;
 
 public class MainActivity extends Activity {
 
@@ -64,15 +65,20 @@ public class MainActivity extends Activity {
             // If the toggle button is on already
             if (toggleButton.isChecked()) {
                 // Let's disable debugging.
-                db.execSQL("UPDATE overrides SET value='false' WHERE name='" + database_name + "';");
+                db.execSQL("DELETE FROM overrides WHERE name='" + database_name + "';");
             } else {
                 // It's off, so we'll enable debugging.
-                db.execSQL("INSERT INTO overrides (name, value) VALUES ('" + database_name + "', 'true');");
+				try {
+                	db.execSQL("INSERT INTO overrides (name, value) VALUES ('" + database_name + "', 'true');");
+				} catch (android.database.SQLException sqle)
+				{
+					// if this errors out, then that means the key is already in the database.
+				}
                 db.execSQL("UPDATE overrides SET value='true' WHERE name='" + database_name + "';");
             }
             // Just kidding. You can have it back now.
             Shell.SU.run("cp /data/data/com.r3pwn.LetMeMakeYouSomeSandwiches/databases/gservices.db /data/data/com.google.android.gsf/databases/gservices.db\n");
-            Shell.SU.run("rm -f /data/data/com.r3pwn.LetMeMakeYouSomeSandwiches/databases/gservices.db\n");
+            Shell.SU.run("rm -f /data/data/com.r3pwn.LetMeMakeYouSomeSandwiches/databases/*\n");
             // Here in Android land, we call the following "reloading".
             Shell.SU.run("am force-stop com.google.android.gsf\n");
             Shell.SU.run("am force-stop " + app_name + "\n");
