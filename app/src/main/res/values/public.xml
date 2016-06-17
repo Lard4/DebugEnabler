@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <public type="drawable" name="ic_launcher" id="0x7f020000" />
+    <public type="layout" name="main" id="0x7f030000" />
+    <public type="layout" name="newsstand_debug_layout" id="0x7f030001" />
+    <public type="string" name="dialog_error" id="0x7f040000" />
+    <public type="string" name="dialog_error_title" id="0x7f040001" />
+    <public type="string" name="dialog_yes" id="0x7f040002" />
+    <public type="string" name="app_name" id="0x7f040003" />
+    <public type="id" name="gpsdb" id="0x7f050000" />
+    <public type="id" name="layout1View1" id="0x7f050001" />
+    <public type="id" name="FinskyDebugToggle" id="0x7f050002" />
+    <public type="id" name="gpsd2b" id="0x7f050003" />
+    <public type="id" name="FinskyDebug2Toggle" id="0x7f050004" />
+    <public type="id" name="layout1TextView1" id="0x7f050005" />
+    <public type="id" name="BabelDebugToggle" id="0x7f050006" />
+    <public type="id" name="babelgvtv" id="0x7f050007" />
+    <public type="id" name="BabelGVToggle" id="0x7f050008" />
+    <public type="id" name="layout1TextView2" id="0x7f050009" />
+    <public type="id" name="MusicDebugToggle" id="0x7f05000a" />
+    <public type="id" name="GamesDogfoodTV" id="0x7f05000b" />
+    <public type="id" name="GamesDogfoodToggle" id="0x7f05000c" />
+    <public type="id" name="MoviesDogfoodTV" id="0x7f05000d" />
+    <public type="id" name="MoviesDogfoodToggle" id="0x7f05000e" />
+    <public type="id" name="layout1TextView3" id="0x7f05000f" />
+    <public type="id" name="BooksDebugToggle" id="0x7f050010" />
+    <public type="id" name="mainView1" id="0x7f050011" />
+    <public type="id" name="newsstandButton" id="0x7f050012" />
+    <public type="id" name="newsstandDivider" id="0x7f050013" />
+    <public type="id" name="mainTextView1" id="0x7f050014" />
+    <public type="id" name="newsstanddebuglayoutTextView1" id="0x7f050015" />
+</resources>

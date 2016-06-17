@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:orientation="1" android:layout_width="-1" android:layout_height="-1">
+    <TextView android:id="@id/newsstanddebuglayoutTextView1" android:padding="15dp" android:layout_width="-2" android:layout_height="-2" android:text="To Enable:
+Open Newsstand.
+Go to Settings. (In the slide-out menu.)
+Tap the Version number at the bottom of the list 5 times until 'Designer Mode' appears beneath it.
+You're done!" />
+    <TextView android:padding="15dp" android:layout_width="-2" android:layout_height="-2" android:text="To Disable:
+Clear app data.
+You're done!" android:layout_below="@id/newsstanddebuglayoutTextView1" />
+</RelativeLayout>

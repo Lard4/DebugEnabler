@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_width="-2" android:layout_height="-2">
+    <RelativeLayout android:layout_width="-1" android:layout_height="-1">
+        <TextView android:textAppearance="?unknown_attr_ref: 1010042" android:id="@id/gpsdb" android:padding="15dp" android:layout_width="-2" android:layout_height="-2" android:text="Google Play Store Debugging" android:layout_alignParentLeft="true" />
+        <View android:id="@id/layout1View1" android:background="?unknown_attr_ref: 101032c" android:layout_width="1dp" android:layout_height="-1" android:alpha="0.0" android:layout_toEndOf="@id/gpsdb" />
+        <ToggleButton android:id="@id/FinskyDebugToggle" android:layout_width="-2" android:layout_height="-2" android:textOn="Enabled" android:textOff="Disabled" android:layout_alignBottom="@id/gpsdb" android:layout_alignParentRight="true" android:layout_toEndOf="@id/layout1View1" />
+        <TextView android:textAppearance="?unknown_attr_ref: 1010042" android:id="@id/gpsd2b" android:padding="15dp" android:layout_width="-2" android:layout_height="-2" android:text="Google Play Store DCB Debug" android:layout_below="@id/FinskyDebugToggle" android:layout_alignParentLeft="true" />
+        <View android:id="@id/layout1View1" android:background="?unknown_attr_ref: 101032c" android:layout_width="1dp" android:layout_height="-1" android:alpha="0.0" android:layout_toEndOf="@id/gpsd2b" />
+        <ToggleButton android:id="@id/FinskyDebug2Toggle" android:layout_width="-2" android:layout_height="-2" android:textOn="Enabled" android:textOff="Disabled" android:layout_alignBottom="@id/gpsd2b" android:layout_alignParentRight="true" android:layout_toEndOf="@id/layout1View1" />
+        <View android:background="?unknown_attr_ref: 101030a" android:layout_width="-1" android:layout_height="1dp" android:layout_below="@id/gpsd2b" />
+        <TextView android:textAppearance="?unknown_attr_ref: 1010042" android:id="@id/layout1TextView1" android:padding="15dp" android:layout_width="-2" android:layout_height="-2" android:text="Hangouts Debugging" android:layout_below="@id/gpsd2b" android:layout_alignParentLeft="true" android:layout_toStartOf="@id/layout1View1" />
+        <ToggleButton android:id="@id/BabelDebugToggle" android:layout_width="-2" android:layout_height="-2" android:textOn="Enabled" android:textOff="Disabled" android:layout_below="@id/FinskyDebug2Toggle" android:layout_alignBottom="@id/layout1TextView1" android:layout_alignParentRight="true" android:layout_toEndOf="@id/layout1View1" />
+        <TextView android:textAppearance="?unknown_attr_ref: 1010042" android:id="@id/babelgvtv" android:padding="15dp" android:visibility="2" android:layout_width="-2" android:layout_height="-2" android:text="Hangouts GV SMS" android:layout_below="@id/layout1TextView1" android:layout_alignParentLeft="true" android:layout_toStartOf="@id/layout1View1" />
+        <ToggleButton android:id="@id/BabelGVToggle" android:visibility="2" android:layout_width="-2" android:layout_height="-2" android:textOn="Enabled" android:textOff="Disabled" android:layout_below="@id/BabelDebugToggle" android:layout_alignBottom="@id/babelgvtv" android:layout_alignParentRight="true" android:layout_toEndOf="@id/layout1View1" />
+        <View android:background="?unknown_attr_ref: 101030a" android:visibility="2" android:layout_width="-1" android:layout_height="1dp" android:layout_below="@id/babelgvtv" />
+        <TextView android:textAppearance="?unknown_attr_ref: 1010042" android:id="@id/layout1TextView2" android:padding="15dp" android:layout_width="-2" android:layout_height="-2" android:text="Play Music Debugging" android:layout_below="@id/babelgvtv" android:layout_alignParentLeft="true" android:layout_toStartOf="@id/layout1View1" />
+        <ToggleButton android:id="@id/MusicDebugToggle" android:layout_width="-2" android:layout_height="-2" android:textOn="Enabled" android:textOff="Disabled" android:layout_below="@id/BabelGVToggle" android:layout_alignBottom="@id/layout1TextView2" android:layout_alignParentRight="true" android:layout_toEndOf="@id/layout1View1" />
+        <View android:background="?unknown_attr_ref: 101030a" android:layout_width="-1" android:layout_height="1dp" android:layout_below="@id/layout1TextView2" />
+        <View android:background="?unknown_attr_ref: 101030a" android:layout_width="-1" android:layout_height="1dp" android:layout_below="@id/gpsdb" />
+        <View android:background="?unknown_attr_ref: 101030a" android:layout_width="-1" android:layout_height="1dp" android:layout_below="@id/layout1TextView1" />
+        <TextView android:textAppearance="?unknown_attr_ref: 1010042" android:id="@id/GamesDogfoodTV" android:padding="15dp" android:layout_width="-2" android:layout_height="-2" android:text="Play Games Dogfood" android:layout_below="@id/layout1TextView2" android:layout_alignParentLeft="true" android:layout_toStartOf="@id/layout1View1" />
+        <ToggleButton android:id="@id/GamesDogfoodToggle" android:layout_width="-2" android:layout_height="-2" android:textOn="Enabled" android:textOff="Disabled" android:layout_below="@id/MusicDebugToggle" android:layout_alignBottom="@id/GamesDogfoodTV" android:layout_alignParentRight="true" android:layout_toEndOf="@id/layout1View1" />
+        <View android:background="?unknown_attr_ref: 101030a" android:layout_width="-1" android:layout_height="1dp" android:layout_below="@id/GamesDogfoodTV" />
+        <TextView android:textAppearance="?unknown_attr_ref: 1010042" android:id="@id/MoviesDogfoodTV" android:padding="15dp" android:layout_width="-2" android:layout_height="-2" android:text="Play Movies Dogfood" android:layout_below="@id/GamesDogfoodTV" android:layout_alignParentLeft="true" android:layout_toStartOf="@id/layout1View1" />
+        <ToggleButton android:id="@id/MoviesDogfoodToggle" android:layout_width="-2" android:layout_height="-2" android:textOn="Enabled" android:textOff="Disabled" android:layout_below="@id/GamesDogfoodToggle" android:layout_alignBottom="@id/MoviesDogfoodTV" android:layout_alignParentRight="true" android:layout_toEndOf="@id/layout1View1" />
+        <View android:background="?unknown_attr_ref: 101030a" android:layout_width="-1" android:layout_height="1dp" android:layout_below="@id/MoviesDogfoodTV" />
+        <TextView android:textAppearance="?unknown_attr_ref: 1010042" android:id="@id/layout1TextView3" android:padding="15dp" android:layout_width="-2" android:layout_height="-2" android:text="Play Books Debugging" android:layout_below="@id/MoviesDogfoodTV" android:layout_alignParentLeft="true" android:layout_toStartOf="@id/layout1View1" />
+        <ToggleButton android:id="@id/BooksDebugToggle" android:layout_width="-2" android:layout_height="-2" android:textOn="Enabled" android:textOff="Disabled" android:layout_below="@id/MoviesDogfoodToggle" android:layout_alignBottom="@id/layout1TextView3" android:layout_alignParentRight="true" android:layout_toEndOf="@id/layout1View1" />
+        <View android:id="@id/mainView1" android:background="?unknown_attr_ref: 101030a" android:layout_width="-1" android:layout_height="1dp" android:layout_below="@id/layout1TextView3" />
+        <Button android:id="@id/newsstandButton" android:layout_width="-1" android:layout_height="-2" android:text="Newsstand Debugging" android:layout_below="@id/mainView1" />
+        <View android:id="@id/newsstandDivider" android:background="?unknown_attr_ref: 101030a" android:layout_width="-1" android:layout_height="1dp" android:layout_below="@id/newsstandButton" />
+        <TextView android:textAppearance="?unknown_attr_ref: 1010042" android:id="@id/mainTextView1" android:padding="15dp" android:layout_width="-2" android:layout_height="-2" android:text="This app was made in my free time, if you like it, please donate to me!
+ - r3pwn" android:layout_below="@id/newsstandDivider" />
+    </RelativeLayout>
+</ScrollView>
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:gravity="center"
+	android:orientation="vertical">
+
+	<TextView
+		android:layout_height="wrap_content"
+		android:text="Debug menu:"
+		android:textAppearance="?android:attr/textAppearanceLarge"
+		android:layout_width="wrap_content"/>
+
+	<ToggleButton
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
+		android:textOn="Enabled"
+		android:textOff="Disabled"
+		android:id="@+id/fixtb"/>
+
+</LinearLayout>
+

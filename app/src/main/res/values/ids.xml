@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item type="id" name="gpsdb">false</item>
+    <item type="id" name="layout1View1">false</item>
+    <item type="id" name="FinskyDebugToggle">false</item>
+    <item type="id" name="gpsd2b">false</item>
+    <item type="id" name="FinskyDebug2Toggle">false</item>
+    <item type="id" name="layout1TextView1">false</item>
+    <item type="id" name="BabelDebugToggle">false</item>
+    <item type="id" name="babelgvtv">false</item>
+    <item type="id" name="BabelGVToggle">false</item>
+    <item type="id" name="layout1TextView2">false</item>
+    <item type="id" name="MusicDebugToggle">false</item>
+    <item type="id" name="GamesDogfoodTV">false</item>
+    <item type="id" name="GamesDogfoodToggle">false</item>
+    <item type="id" name="MoviesDogfoodTV">false</item>
+    <item type="id" name="MoviesDogfoodToggle">false</item>
+    <item type="id" name="layout1TextView3">false</item>
+    <item type="id" name="BooksDebugToggle">false</item>
+    <item type="id" name="mainView1">false</item>
+    <item type="id" name="newsstandButton">false</item>
+    <item type="id" name="newsstandDivider">false</item>
+    <item type="id" name="mainTextView1">false</item>
+    <item type="id" name="newsstanddebuglayoutTextView1">false</item>
+</resources>

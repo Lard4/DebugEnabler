@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="dialog_error">You do not have the SQLite3 binary installed. Would you like to install it now?</string>
+    <string name="dialog_error_title">SQLite3 binary not installed.</string>
+    <string name="dialog_yes">Yes, take me there!</string>
+    <string name="app_name">\#DebugAllTheThings</string>
+</resources>
