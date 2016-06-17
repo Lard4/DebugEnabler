@@ -2,26 +2,18 @@ package com.r3pwn.LetMeMakeYouSomeSandwiches;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
-import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.net.Uri;
-import android.os.Bundle;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 import android.widget.ToggleButton;
-
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.IOException;
 
 import eu.chainfire.libsuperuser.Shell;
 
@@ -37,17 +29,68 @@ public class MainActivity extends Activity {
     ToggleButton booksDebugToggle;
     Button newsstandButton;
     MainActivity mainActivity;
+    SharedPreferences defaultSharedPreferences;
+
 
     public MainActivity() {
         mainActivity = this;
     }
+
+    class bridge implements View.OnClickListener {
+        private ToggleButton toggleButton;
+        private String database_name;
+        private String editor_name;
+        private String app_name;
+        public bridge(ToggleButton toggleButton, String database_name, String editor_name, String app_name) {
+            this.toggleButton = toggleButton;
+            this.database_name = database_name;
+            this.editor_name = editor_name;
+            this.app_name = app_name;
+        }
+
+        @Override
+        public void onClick(View view) {
+            // Disable buttons
+            disableAll();
+
+            // Grab preferences
+            Editor editor = defaultSharedPreferences.edit();
+
+            // Look at me. I'm the captain now.
+            Shell.SU.run("cp /data/data/com.google.android.gsf/databases/gservices.db /data/data/com.r3pwn.configurator/databases/gservices.db\n");
+            SQLiteDatabase db = openOrCreateDatabase("gservices.db", Context.MODE_WORLD_READABLE, null);
+            // All your overrides are belong to me.
+            // If the toggle button is on
+            if (toggleButton.isChecked()) {
+                // Let's disable debugging.
+                db.execSQL("UPDATE overrides SET value='false' WHERE name='" + database_name + "';");
+            } else {
+                // It's not on, so we'll enable debugging.
+                db.execSQL("INSERT INTO overrides (name, value) VALUES ('" + database_name + "', 'true');");
+                db.execSQL("UPDATE overrides SET value='true' WHERE name='" + database_name + "';");
+            }
+            // Just kidding. You can have it back now.
+            Shell.SU.run("cp /data/data/com.r3pwn.configurator/databases/gservices.db /data/data/com.google.android.gsf/databases/gservices.db\n");
+            Shell.SU.run("rm -f /data/data/com.r3pwn.configurator/databases/gservices.db\n");
+            // Here in Android land, we call the following "reloading".
+            Shell.SU.run("am force-stop com.google.android.gsf\n");
+            Shell.SU.run("am force-stop " + app_name + "\n");
+
+            editor.putInt(editor_name, 1);
+            editor.commit();
+            // Re-enable buttons
+            enableAll();
+            Toast.makeText(mainActivity.getApplicationContext(), "Changes applied.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     @Override
     public void onCreate(Bundle bundle) {
         // Show view
         super.onCreate(bundle);
         setContentView(R.layout.main);
-        SharedPreferences defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         // Get preferences
         int finsky_status = defaultSharedPreferences.getInt("finsky_status", 0);
         int finsky2_status = defaultSharedPreferences.getInt("finsky2_status", 0);
@@ -59,15 +102,15 @@ public class MainActivity extends Activity {
         int movies_status = defaultSharedPreferences.getInt("movies_status", 0);
 
         // Setup
-        finskyDebugToggle = (ToggleButton) mainActivity.findViewById(R.id.FinskyDebugToggle);
-        finskyDebug2Toggle = (ToggleButton) mainActivity.findViewById(R.id.FinskyDebug2Toggle);
-        babelDebugToggle = (ToggleButton) mainActivity.findViewById(R.id.BabelDebugToggle);
-        babelGVToggle = (ToggleButton) mainActivity.findViewById(R.id.BabelGVToggle);
-        musicDebugToggle = (ToggleButton) mainActivity.findViewById(R.id.MusicDebugToggle);
-        gamesDogfoodToggle = (ToggleButton) mainActivity.findViewById(R.id.GamesDogfoodToggle);
-        moviesDogfoodToggle = (ToggleButton) mainActivity.findViewById(R.id.MoviesDogfoodToggle);
-        booksDebugToggle = (ToggleButton) mainActivity.findViewById(R.id.BooksDebugToggle);
-        newsstandButton = (Button) mainActivity.findViewById(R.id.newsstandButton);
+        finskyDebugToggle = (ToggleButton) findViewById(R.id.FinskyDebugToggle);
+        finskyDebug2Toggle = (ToggleButton) findViewById(R.id.FinskyDebug2Toggle);
+        babelDebugToggle = (ToggleButton) findViewById(R.id.BabelDebugToggle);
+        babelGVToggle = (ToggleButton) findViewById(R.id.BabelGVToggle);
+        musicDebugToggle = (ToggleButton) findViewById(R.id.MusicDebugToggle);
+        gamesDogfoodToggle = (ToggleButton) findViewById(R.id.GamesDogfoodToggle);
+        moviesDogfoodToggle = (ToggleButton) findViewById(R.id.MoviesDogfoodToggle);
+        booksDebugToggle = (ToggleButton) findViewById(R.id.BooksDebugToggle);
+        newsstandButton = (Button) findViewById(R.id.newsstandButton);
 
         if (finsky_status == 1) {
             finskyDebugToggle.setChecked(true);
@@ -121,7 +164,7 @@ public class MainActivity extends Activity {
             // Disable all buttons
             disableAll();
             // Create dialog
-            AlertDialog.Builder noRoot = new AlertDialog.Builder(this);//Context parameter
+            AlertDialog.Builder noRoot = new AlertDialog.Builder(this); //Context parameter
             noRoot.setTitle("No root");
             noRoot.setMessage("You aren't rooted. This app can't function without root. All functionality has been disabled.");
             noRoot.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -135,33 +178,40 @@ public class MainActivity extends Activity {
             alertDialog.show();
         }
 
-//        if (!(new File("/system/bin/sqlite3").exists() || new File("/system/xbin/sqlite3").exists())) {
-//            new NoSQLDialog(this).noBusyboxDialog();
-//        }
 
-
-//        finskyDebugToggle.setOnClickListener(new 100000003(this, toggleButton, edit, incompatible_status));
-//        finskyDebug2Toggle.setOnClickListener(new 100000004(this, toggleButton2, edit, incompatible_status));
-//        babelDebugToggle.setOnClickListener(new 100000005(this, toggleButton3, edit, incompatible_status));
-//        babelGVToggle.setOnClickListener(new 100000006(this, toggleButton4, edit, incompatible_status));
-//        musicDebugToggle.setOnClickListener(new 100000007(this, toggleButton5, edit, incompatible_status));
-//        gamesDogfoodToggle.setOnClickListener(new 100000008(this, toggleButton6, edit, incompatible_status));
-//        moviesDogfoodToggle.setOnClickListener(new 100000009(this, toggleButton7, edit, incompatible_status));
-//        booksDebugToggle.setOnClickListener(new 100000010(this, toggleButton8, edit, incompatible_status));
+        finskyDebugToggle.setOnClickListener(new bridge(finskyDebug2Toggle, "finsky.debug_options_enabled", "finsky_status", "com.android.vending"));
+        finskyDebug2Toggle.setOnClickListener(new bridge(finskyDebugToggle, "finsky.dcb_debug_options_enabled", "finsky2_status", "com.android.vending"));
+        babelDebugToggle.setOnClickListener(new bridge(babelDebugToggle, "babel_debugging", "babel_status", "com.google.android.talk"));
+        babelGVToggle.setOnClickListener(new bridge(babelGVToggle, "babel_gv_sms", "babelgv_status", "com.google.android.talk"));
+        musicDebugToggle.setOnClickListener(new bridge(musicDebugToggle, "music_debug_logs_enabled", "music_status", "com.google.android.music"));
+        gamesDogfoodToggle.setOnClickListener(new bridge(gamesDogfoodToggle, "games.play_games_dogfood", "games_status", "com.google.android.play.games"));
+        moviesDogfoodToggle.setOnClickListener(new bridge(moviesDogfoodToggle, "videos:dogfood_enabled", "movies_status", "com.google.android.videos"));
+        booksDebugToggle.setOnClickListener(new bridge(booksDebugToggle, "books:show_testing_ui", "books_status", "com.google.android.apps.books"));
         // Launch newsstand class
         newsstandButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 try {
                     mainActivity.startActivity(new Intent(mainActivity, Class.forName("com.r3pwn.LetMeMakeYouSomeSandwiches.NewsstandDebug")));
                 } catch (Throwable e) {
-                    Toast.makeText(mainActivity.getApplicationContext(), "Could not find Newsstand class.", 1).show();
+                    Toast.makeText(mainActivity.getApplicationContext(), "Could not find Newsstand class.", Toast.LENGTH_LONG).show();
                     throw new NoClassDefFoundError(e.getMessage());
                 }
             }
         });
-}
+    }
 
     public void disableAll() {
+        finskyDebugToggle.setEnabled(false);
+        finskyDebug2Toggle.setEnabled(false);
+        babelDebugToggle.setEnabled(false);
+        babelGVToggle.setEnabled(false);
+        musicDebugToggle.setEnabled(false);
+        gamesDogfoodToggle.setEnabled(false);
+        moviesDogfoodToggle.setEnabled(false);
+        booksDebugToggle.setEnabled(false);
+    }
+
+    public void enableAll() {
         finskyDebugToggle.setEnabled(false);
         finskyDebug2Toggle.setEnabled(false);
         babelDebugToggle.setEnabled(false);
