@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.net.Uri;
-import android.os.Build.VERSION;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
@@ -68,23 +67,6 @@ public class MainActivity extends Activity {
 //        }
 //    }
 //
-//    class 100000001 implements OnClickListener {
-//        private final MainActivity mainActivity;
-//        private final AlertDialog val$sualertDialog;
-//
-//        100000001(MainActivity mainActivity, AlertDialog alertDialog) {
-//            this.mainActivity = mainActivity;
-//            this.val$sualertDialog = alertDialog;
-//        }
-//
-//        static MainActivity access$0(100000001 100000001) {
-//            return 100000001.mainActivity;
-//        }
-//
-//        public void onClick(DialogInterface dialogInterface, int i) {
-//            this.val$sualertDialog.dismiss();
-//        }
-//    }
 //
 //
 //    class 100000003 implements View.OnClickListener {
@@ -658,16 +640,26 @@ public class MainActivity extends Activity {
             booksDebugToggle.setChecked(false);
         }
         if (Shell.SU.available() == false) {
-            AlertDialog noRoot = new Builder(this).create();
-            noRoot.setTitle("You aren't rooted");
-            noRoot.setMessage("It looks like you aren't rooted. Most features will not work. There is nothing I can do to help you.");
-            noRoot.setButton("Alright, thanks anyways.", new 100000001 (this, noRoot));
-            noRoot.show();
+            // Disable all buttons
             disableAll();
+            // Create dialog
+            AlertDialog.Builder noRoot = new AlertDialog.Builder(this);//Context parameter
+            noRoot.setTitle("No root");
+            noRoot.setMessage("You aren't rooted. This app can't function without root. All functionality has been disabled.");
+            noRoot.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    // Dismiss dialog
+                    dialog.dismiss();
+                }
+            });
+            AlertDialog alertDialog = noRoot.create();
+            alertDialog.show();
         }
-        if (!(new File("/system/bin/sqlite3").exists() || new File("/system/xbin/sqlite3").exists())) {
-            new NoSQLDialog(this).noBusyboxDialog();
-        }
+
+//        if (!(new File("/system/bin/sqlite3").exists() || new File("/system/xbin/sqlite3").exists())) {
+//            new NoSQLDialog(this).noBusyboxDialog();
+//        }
 //        finskyDebugToggle.setOnClickListener(new 100000003(this, toggleButton, edit, incompatible_status));
 //        finskyDebug2Toggle.setOnClickListener(new 100000004(this, toggleButton2, edit, incompatible_status));
 //        babelDebugToggle.setOnClickListener(new 100000005(this, toggleButton3, edit, incompatible_status));
