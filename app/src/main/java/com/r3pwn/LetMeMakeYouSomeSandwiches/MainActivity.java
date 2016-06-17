@@ -41,6 +41,7 @@ public class MainActivity extends Activity {
         private String database_name;
         private String editor_name;
         private String app_name;
+
         public bridge(ToggleButton toggleButton, String database_name, String editor_name, String app_name) {
             this.toggleButton = toggleButton;
             this.database_name = database_name;
@@ -62,12 +63,12 @@ public class MainActivity extends Activity {
             // All your overrides are belong to me.
             // If the toggle button is on
             if (toggleButton.isChecked()) {
+                // Let's disable debugging.
+                db.execSQL("UPDATE overrides SET value='false' WHERE name='" + database_name + "';");
+            } else {
                 // It's on, so we'll enable debugging.
                 db.execSQL("INSERT INTO overrides (name, value) VALUES ('" + database_name + "', 'true');");
                 db.execSQL("UPDATE overrides SET value='true' WHERE name='" + database_name + "';");
-            } else {
-                // Let's disable debugging.
-                db.execSQL("UPDATE overrides SET value='false' WHERE name='" + database_name + "';");
             }
             // Just kidding. You can have it back now.
             Shell.SU.run("cp /data/data/com.r3pwn.LetMeMakeYouSomeSandwiches/databases/gservices.db /data/data/com.google.android.gsf/databases/gservices.db\n");
