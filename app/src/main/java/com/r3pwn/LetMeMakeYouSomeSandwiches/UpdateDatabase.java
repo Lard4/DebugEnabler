@@ -42,12 +42,17 @@ class UpdateDatabase implements View.OnClickListener {
 		if (!databasesDir.exists())
 		{
 			databasesDir.mkdir();
+		} else {
+			// Clean up beforehand
+			Shell.SU.run("rm -f /data/data/com.r3pwn.LetMeMakeYouSomeSandwiches/databases/*\n");
 		}
 		
+		// Copy and set proper permissions
 		Shell.SU.run("cp /data/data/com.google.android.gsf/databases/gservices.db " + gservicesDb + "\n");
 		Shell.SU.run("restorecon " + gservicesDb);
 		Shell.SU.run("chmod 0777 " + gservicesDb);
 		
+		// This is a horrible hack and I don't recommend anyone use it ever.
 		while (!isCompletelyWritten(gservicesDb))
 		{
 			try
@@ -58,6 +63,7 @@ class UpdateDatabase implements View.OnClickListener {
 			{}
 		}
 		
+		// pack up and move to gservices_working.db
 		gservicesDb.renameTo(gservicesWorkingDb);
 		
 		while (!isCompletelyWritten(gservicesWorkingDb))
@@ -70,6 +76,7 @@ class UpdateDatabase implements View.OnClickListener {
 			{}
 		}
 		
+		// Open the database for writing
         SQLiteDatabase db = mainActivity.openOrCreateDatabase(gservicesWorkingDb.toString(), Context.MODE_WORLD_WRITEABLE, null);
         // All your overrides are belong to me.
         // If the toggle button is on already
@@ -83,7 +90,8 @@ class UpdateDatabase implements View.OnClickListener {
             try {
                 db.execSQL("INSERT INTO overrides (name, value) VALUES ('" + database_name + "', 'true');");
             } catch (android.database.SQLException sqle) {
-                // if this errors out, then that means the key is already in the database.
+                // If this errors out, then that means the key is already in the database.
+                // Nothing needs to be inserted, so we can just update the key.
             }
             db.execSQL("UPDATE overrides SET value='true' WHERE name='" + database_name + "';");
 			editor.putInt(editor_name, 1);
