@@ -1,15 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="dialog_error">You do not have the SQLite3 binary installed. Would you like to install it now?</string>
-    <string name="dialog_error_title">SQLite3 binary not installed.</string>
-    <string name="dialog_yes">Yes, take me there!</string>
-    <string name="app_name">\#DebugAllTheThings</string>
-    <string name="google_play_store_debugging">Google Play Store Debugging</string>
-    <string name="play_movies_dogfood">Play Movies Dogfood</string>
-    <string name="google_play_store_dcb_debug">Google Play Store DCB Debug</string>
-    <string name="hangouts_debugging">Hangouts Debugging</string>
-    <string name="play_games_dogfood">Play Games Dogfood</string>
-    <string name="hangouts_gv_sms">Hangouts GV SMS</string>
-    <string name="play_music_debugging">Play Music Debugging</string>
-    <string name="play_books_debugging">Play Books Debugging</string>
+    <string name="app_name">DebugEnabler</string>
 </resources>

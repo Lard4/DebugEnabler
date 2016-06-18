@@ -5,21 +5,15 @@
     android:layout_height="fill_parent"
     android:layout_width="fill_parent">
     <TextView
-        android:id="@id/newsstanddebuglayoutTextView1"
+        android:id="@+id/newsstanddebuglayoutTextView1"
         android:padding="15dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="To Enable:\n
-            Open Newsstand.\n
-            Go to Settings. (In the slide-out menu.)\n
-            Tap the Version number at the bottom of the list 5 times until 'Designer Mode' appears beneath it.\n
-            You're done!" />
+        android:text="To Enable:\nOpen Newsstand.\nGo to Settings. (In the slide-out menu.)\nTap the Version number at the bottom of the list 5 times until 'Designer Mode' appears beneath it.\nYou're done!" />
     <TextView
         android:padding="15dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="To Disable:\n
-            Clear app data.\n
-            Newsstand debugging is now disabled!"
+        android:text="To Disable:\nClear Newsstand's app data.\nNewsstand debugging is now disabled!"
         android:layout_below="@id/newsstanddebuglayoutTextView1" />
 </RelativeLayout>
