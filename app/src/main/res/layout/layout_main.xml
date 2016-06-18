@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_height="match_parent"
+	android:layout_width="match_parent">
+
+	<RelativeLayout
+		android:layout_height="fill_parent"
+		android:layout_width="fill_parent">
+
+		<ToggleButton
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:layout_alignParentRight="true"
+			android:id="@+id/finskyDebugToggle"/>
+
+		<ToggleButton
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:layout_below="@id/finskyDebugToggle"
+			android:layout_alignParentRight="true"
+			android:id="@+id/babelDebugToggle"/>
+
+		<ToggleButton
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:layout_below="@id/babelDebugToggle"
+			android:layout_alignParentRight="true"/>
+
+		<TextView
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:text="Google Play Store Debug"
+			android:layout_toLeftOf="@id/finskyDebugToggle"
+			android:layout_alignBottom="@id/finskyDebugToggle"
+			android:layout_alignTop="@id/finskyDebugToggle"
+			android:layout_alignParentLeft="true"
+			android:gravity="center"/>
+
+		<TextView
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:text="Hangouts Debug"
+			android:layout_toLeftOf="@id/babelDebugToggle"
+			android:layout_alignTop="@id/babelDebugToggle"
+			android:layout_alignBottom="@id/babelDebugToggle"
+			android:layout_alignParentLeft="true"
+			android:gravity="center"/>
+
+	</RelativeLayout>
+
+</ScrollView>
+

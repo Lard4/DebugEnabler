@@ -10,8 +10,9 @@ import android.widget.ToggleButton;
 import eu.chainfire.libsuperuser.Shell;
 import java.io.*;
 import android.util.*;
+import android.widget.*;
 
-class UpdateDatabase implements View.OnClickListener {
+class UpdateDatabase implements ToggleButton.OnCheckedChangeListener {
     private ToggleButton toggleButton;
     private String database_name;
     private String editor_name;
@@ -27,9 +28,9 @@ class UpdateDatabase implements View.OnClickListener {
     }
 
     @Override
-    public void onClick(View view) {
+    public void onCheckedChanged(CompoundButton cb, boolean checked) {
         // Disable buttons
-        mainActivity.disableAll();
+        //mainActivity.disableAll();
 
         // Grab preferences
         SharedPreferences.Editor editor = mainActivity.defaultSharedPreferences.edit();
@@ -77,16 +78,11 @@ class UpdateDatabase implements View.OnClickListener {
 		}
 		
 		// Open the database for writing
-        SQLiteDatabase db = mainActivity.openOrCreateDatabase(gservicesWorkingDb.toString(), Context.MODE_WORLD_WRITEABLE, null);
+        SQLiteDatabase db = mainActivity.openOrCreateDatabase(gservicesWorkingDb.toString(), Context.MODE_WORLD_READABLE, null);
         // All your overrides are belong to me.
-        // If the toggle button is on already
+        // If the toggle button is on
         if (toggleButton.isChecked()) {
-            // Let's disable debugging.
-            db.execSQL("UPDATE overrides SET value='false' WHERE name='" + database_name + "';");
-			editor.putInt(editor_name, 0);
-			editor.commit();
-        } else {
-            // It's off, so we'll enable debugging.
+			// It's on, so we'll enable debugging.
             try {
                 db.execSQL("INSERT INTO overrides (name, value) VALUES ('" + database_name + "', 'true');");
             } catch (android.database.SQLException sqle) {
@@ -96,19 +92,28 @@ class UpdateDatabase implements View.OnClickListener {
             db.execSQL("UPDATE overrides SET value='true' WHERE name='" + database_name + "';");
 			editor.putInt(editor_name, 1);
 			editor.commit();
+        } else {
+            // Let's disable debugging.
+            db.execSQL("DELETE FROM overrides WHERE name='" + database_name + "';");
+			editor.putInt(editor_name, 0);
+			editor.commit();
         }
 		
         // Just kidding. You can have it back now.
+		Shell.SU.run("mv  /data/data/com.google.android.gsf/databases/gservices.db /data/data/com.google.android.gsf/databases/gservices.db.old\n");
+		Shell.SU.run("rm  /data/data/com.google.android.gsf/databases/gservices.db-journal\n");
         Shell.SU.run("cp " + gservicesWorkingDb + " /data/data/com.google.android.gsf/databases/gservices.db\n");
-        
+        Shell.SU.run("restorecon /data/data/com.google.android.gsf/databases/gservices.db\n");
+		Shell.SU.run("chmod 0777 /data/data/com.google.android.gsf/databases/gservices.db\n");
+		
         // Here in Android land, we call the following "reloading".
         Shell.SU.run("am force-stop com.google.android.gsf\n");
         Shell.SU.run("am force-stop " + app_name + "\n");
 		
-		Shell.SU.run("rm -f /data/data/com.r3pwn.LetMeMakeYouSomeSandwiches/databases/*\n");
+		//Shell.SU.run("rm -f /data/data/com.r3pwn.LetMeMakeYouSomeSandwiches/databases/*\n");
 
         // Re-enable buttons
-        mainActivity.enableAll();
+        //mainActivity.enableAll();
         Toast.makeText(mainActivity.getApplicationContext(), "Changes applied.", Toast.LENGTH_SHORT).show();
     }
 	
