@@ -40,6 +40,7 @@ class UpdateDatabase implements View.OnClickListener {
         if (toggleButton.isChecked()) {
             // Let's disable debugging.
             db.execSQL("DELETE FROM overrides WHERE name='" + database_name + "';");
+			editor.putInt(editor_name, 0);
         } else {
             // It's off, so we'll enable debugging.
             try {
@@ -48,6 +49,7 @@ class UpdateDatabase implements View.OnClickListener {
                 // if this errors out, then that means the key is already in the database.
             }
             db.execSQL("UPDATE overrides SET value='true' WHERE name='" + database_name + "';");
+			editor.putInt(editor_name, 1);
         }
         // Just kidding. You can have it back now.
         Shell.SU.run("cp /data/data/com.r3pwn.LetMeMakeYouSomeSandwiches/databases/gservices.db /data/data/com.google.android.gsf/databases/gservices.db\n");
@@ -55,9 +57,9 @@ class UpdateDatabase implements View.OnClickListener {
         // Here in Android land, we call the following "reloading".
         Shell.SU.run("am force-stop com.google.android.gsf\n");
         Shell.SU.run("am force-stop " + app_name + "\n");
+		
+		editor.commit();
 
-        editor.putInt(editor_name, 1);
-        editor.commit();
         // Re-enable buttons
         mainActivity.enableAll();
         Toast.makeText(mainActivity.getApplicationContext(), "Changes applied.", Toast.LENGTH_SHORT).show();
