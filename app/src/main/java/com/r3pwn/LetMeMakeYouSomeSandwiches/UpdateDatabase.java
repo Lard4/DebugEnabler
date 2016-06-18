@@ -48,9 +48,6 @@ class UpdateDatabase implements ToggleButton.OnCheckedChangeListener {
 
     @Override
     public void onCheckedChanged(CompoundButton cb, boolean checked) {
-        // Disable buttons
-        //mainActivity.disableAll();
-
         // Grab preferences
         SharedPreferences.Editor editor = mainActivity.defaultSharedPreferences.edit();
 
@@ -129,10 +126,8 @@ class UpdateDatabase implements ToggleButton.OnCheckedChangeListener {
         Shell.SU.run("am force-stop com.google.android.gsf\n");
         Shell.SU.run("am force-stop " + app_name + "\n");
 		
-		//Shell.SU.run("rm -f /data/data/com.r3pwn.LetMeMakeYouSomeSandwiches/databases/*\n");
+		Shell.SU.run("rm -f /data/data/com.r3pwn.LetMeMakeYouSomeSandwiches/databases/*\n");
 
-        // Re-enable buttons
-        //mainActivity.enableAll();
         Toast.makeText(mainActivity.getApplicationContext(), "Changes applied.", Toast.LENGTH_SHORT).show();
     }
 	
