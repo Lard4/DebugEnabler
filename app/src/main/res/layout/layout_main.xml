@@ -25,7 +25,8 @@
 			android:layout_height="wrap_content"
 			android:layout_width="wrap_content"
 			android:layout_below="@id/babelDebugToggle"
-			android:layout_alignParentRight="true"/>
+			android:layout_alignParentRight="true"
+			android:id="@+id/bugleDebugToggle"/>
 
 		<TextView
 			android:layout_height="wrap_content"
@@ -44,6 +45,16 @@
 			android:layout_toLeftOf="@id/babelDebugToggle"
 			android:layout_alignTop="@id/babelDebugToggle"
 			android:layout_alignBottom="@id/babelDebugToggle"
+			android:layout_alignParentLeft="true"
+			android:gravity="center"/>
+
+		<TextView
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:text="Messenger Debug"
+			android:layout_toLeftOf="@id/bugleDebugToggle"
+			android:layout_alignTop="@id/bugleDebugToggle"
+			android:layout_alignBottom="@id/bugleDebugToggle"
 			android:layout_alignParentLeft="true"
 			android:gravity="center"/>
 
