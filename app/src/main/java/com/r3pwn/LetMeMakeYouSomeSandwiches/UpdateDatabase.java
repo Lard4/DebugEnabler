@@ -32,6 +32,7 @@ import android.util.*;
 import android.widget.*;
 import android.os.*;
 import java.util.concurrent.*;
+import android.app.*;
 
 class UpdateDatabase implements ToggleButton.OnCheckedChangeListener {
     private ToggleButton toggleButton;
@@ -39,6 +40,7 @@ class UpdateDatabase implements ToggleButton.OnCheckedChangeListener {
     private String editor_name;
     private String app_name;
     private MainActivity mainActivity;
+	private ProgressDialog writeProgress;
 
     UpdateDatabase(MainActivity mainActivity, ToggleButton toggleButton, String database_name, String editor_name, String app_name) {
         this.toggleButton = toggleButton;
@@ -165,10 +167,17 @@ class UpdateDatabase implements ToggleButton.OnCheckedChangeListener {
 		@Override
         protected void onPostExecute(String result) {
 			Toast.makeText(mainActivity.getApplicationContext(), "Changes applied.", Toast.LENGTH_SHORT).show();
+			writeProgress.cancel();
 		}
 
         @Override
-        protected void onPreExecute() {}
+        protected void onPreExecute() {
+			writeProgress = new ProgressDialog(mainActivity);
+			writeProgress.setCancelable(false);
+			writeProgress.setMessage("Writing to database...");
+			writeProgress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+			writeProgress.show();
+		}
 
         @Override
         protected void onProgressUpdate(Void... values) {}
