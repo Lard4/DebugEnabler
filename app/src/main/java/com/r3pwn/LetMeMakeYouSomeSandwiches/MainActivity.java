@@ -39,6 +39,7 @@ public class MainActivity extends Activity {
     ToggleButton finskyDebugToggle;
     ToggleButton babelDebugToggle;
 	ToggleButton bugleDebugToggle;
+	ToggleButton booksTestingToggle;
     /*ToggleButton babelGVToggle;
     ToggleButton musicDebugToggle;
     ToggleButton gamesDogfoodToggle;
@@ -47,7 +48,6 @@ public class MainActivity extends Activity {
     Button newsstandButton;*/
     MainActivity mainActivity;
     SharedPreferences defaultSharedPreferences;
-
 
     public MainActivity() {
         mainActivity = this;
@@ -63,6 +63,7 @@ public class MainActivity extends Activity {
         int finsky_status = defaultSharedPreferences.getInt("finsky_status", 0);
         int babel_status = defaultSharedPreferences.getInt("babel_status", 0);
 		int bugle_status = defaultSharedPreferences.getInt("bugle_status", 0);
+		int books_status = defaultSharedPreferences.getInt("books_status", 0);
         /*int music_status = defaultSharedPreferences.getInt("music_status", 0);
         int books_status = defaultSharedPreferences.getInt("books_status", 0);
         int games_status = defaultSharedPreferences.getInt("games_status", 0);
@@ -72,6 +73,7 @@ public class MainActivity extends Activity {
         finskyDebugToggle = (ToggleButton) findViewById(R.id.finskyDebugToggle);
         babelDebugToggle = (ToggleButton) findViewById(R.id.babelDebugToggle);
 		bugleDebugToggle = (ToggleButton) findViewById(R.id.bugleDebugToggle);
+		booksTestingToggle = (ToggleButton) findViewById(R.id.booksTestingToggle);
         /*babelGVToggle = (ToggleButton) findViewById(R.id.BabelGVToggle);
         musicDebugToggle = (ToggleButton) findViewById(R.id.MusicDebugToggle);
         gamesDogfoodToggle = (ToggleButton) findViewById(R.id.GamesDogfoodToggle);
@@ -87,6 +89,9 @@ public class MainActivity extends Activity {
         }
 		if (bugle_status == 1) {
             bugleDebugToggle.setChecked(true);
+        }
+		if (books_status == 1) {
+            booksTestingToggle.setChecked(true);
         }
 
         if (Shell.SU.available() == false) {
@@ -111,11 +116,11 @@ public class MainActivity extends Activity {
         finskyDebugToggle.setOnCheckedChangeListener(new UpdateDatabase(this, finskyDebugToggle, "finsky.debug_options_enabled", "finsky_status", "com.android.vending"));
         babelDebugToggle.setOnCheckedChangeListener(new UpdateDatabase(this, babelDebugToggle, "babel_debugging", "babel_status", "com.google.android.talk"));
 		bugleDebugToggle.setOnCheckedChangeListener(new UpdateDatabase(this, bugleDebugToggle, "bugle_debugging", "bugle_status", "com.google.android.apps.messaging"));
+		booksTestingToggle.setOnCheckedChangeListener(new UpdateDatabase(this, booksTestingToggle, "books:show_testing_ui", "books_status", "com.google.android.apps.books"));
         /*babelGVToggle.setOnClickListener(new UpdateDatabase(this, babelGVToggle, "babel_gv_sms", "babelgv_status", "com.google.android.talk"));
         musicDebugToggle.setOnClickListener(new UpdateDatabase(this, musicDebugToggle, "music_debug_logs_enabled", "music_status", "com.google.android.music"));
         gamesDogfoodToggle.setOnClickListener(new UpdateDatabase(this, gamesDogfoodToggle, "games.play_games_dogfood", "games_status", "com.google.android.play.games"));
         moviesDogfoodToggle.setOnClickListener(new UpdateDatabase(this, moviesDogfoodToggle, "videos:dogfood_enabled", "movies_status", "com.google.android.videos"));
-        booksDebugToggle.setOnClickListener(new UpdateDatabase(this, booksDebugToggle, "books:show_testing_ui", "books_status", "com.google.android.apps.books"));
         // Launch newsstand class
         newsstandButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -132,6 +137,7 @@ public class MainActivity extends Activity {
         finskyDebugToggle.setEnabled(false);
         babelDebugToggle.setEnabled(false);
 		bugleDebugToggle.setEnabled(false);
+		booksTestingToggle.setEnabled(false);
         /*babelGVToggle.setEnabled(false);
         musicDebugToggle.setEnabled(false);
         gamesDogfoodToggle.setEnabled(false);
@@ -143,6 +149,7 @@ public class MainActivity extends Activity {
         finskyDebugToggle.setEnabled(true);
         babelDebugToggle.setEnabled(true);
 		bugleDebugToggle.setEnabled(true);
+		booksTestingToggle.setEnabled(true);
         /*babelGVToggle.setEnabled(true);
         musicDebugToggle.setEnabled(true);
         gamesDogfoodToggle.setEnabled(true);
