@@ -86,7 +86,7 @@ public class MainActivity extends Activity {
             babelDebugToggle.setChecked(true);
         }
 		if (bugle_status == 1) {
-            babelDebugToggle.setChecked(true);
+            bugleDebugToggle.setChecked(true);
         }
 
         if (Shell.SU.available() == false) {
