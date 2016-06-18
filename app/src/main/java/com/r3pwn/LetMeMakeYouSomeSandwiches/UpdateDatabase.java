@@ -35,10 +35,10 @@ class UpdateDatabase implements View.OnClickListener {
         // Grab preferences
         SharedPreferences.Editor editor = mainActivity.defaultSharedPreferences.edit();
 
-        // Look at me. I'm the captain now.
+        // Copy
         Shell.SU.run("cp /data/data/com.google.android.gsf/databases/gservices.db /data/data/com.r3pwn.LetMeMakeYouSomeSandwiches/databases/gservices.db\n");
+        // Open database
         SQLiteDatabase db = mainActivity.openOrCreateDatabase("gservices.db", Context.MODE_WORLD_READABLE, null);
-        // All your overrides are belong to me.
         // If the toggle button is on already
         if (toggleButton.isChecked()) {
             // Let's disable debugging.
@@ -48,7 +48,8 @@ class UpdateDatabase implements View.OnClickListener {
             try {
                 db.execSQL("INSERT INTO overrides (name, value) VALUES ('" + database_name + "', 'true');");
             } catch (android.database.SQLException sqle) {
-                // if this errors out, then that means the key is already in the database.
+                // If this errors out, then that means the key is already in the database.
+                // Nothing needs to be inserted, so we can just update the key.
             }
             db.execSQL("UPDATE overrides SET value='true' WHERE name='" + database_name + "';");
         }
