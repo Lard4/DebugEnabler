@@ -22,7 +22,6 @@ package com.r3pwn.LetMeMakeYouSomeSandwiches;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
-import android.view.View;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -31,11 +30,10 @@ import java.io.*;
 import android.util.*;
 import android.widget.*;
 import android.os.*;
-import java.util.concurrent.*;
 import android.app.*;
 
 class UpdateDatabase implements ToggleButton.OnCheckedChangeListener {
-    private ToggleButton toggleButton;
+    private Boolean toggleButtonIsChecked;
     private String database_name;
     private String editor_name;
     private String app_name;
@@ -43,7 +41,7 @@ class UpdateDatabase implements ToggleButton.OnCheckedChangeListener {
 	private ProgressDialog writeProgress;
 
     UpdateDatabase(MainActivity mainActivity, ToggleButton toggleButton, String database_name, String editor_name, String app_name) {
-        this.toggleButton = toggleButton;
+        this.toggleButtonIsChecked = toggleButton.isChecked();
         this.database_name = database_name;
         this.editor_name = editor_name;
         this.app_name = app_name;
@@ -128,9 +126,9 @@ class UpdateDatabase implements ToggleButton.OnCheckedChangeListener {
 
 			// Open the database for writing
 			SQLiteDatabase db = mainActivity.openOrCreateDatabase(gservicesWorkingDb.toString(), Context.MODE_WORLD_READABLE, null);
-			// All your overrides are belong to me.
-			// If the toggle button is on
-			if (toggleButton.isChecked()) {
+
+			// Check toggle button status
+			if (toggleButtonIsChecked) {
 				// It's on, so we'll enable debugging.
 				try {
 					db.execSQL("INSERT INTO overrides (name, value) VALUES ('" + database_name + "', 'true');");
@@ -147,6 +145,8 @@ class UpdateDatabase implements ToggleButton.OnCheckedChangeListener {
 				editor.putInt(editor_name, 0);
 				editor.commit();
 			}
+            // Close database, as we have written to it.
+			db.close();
 
 			// Just kidding. You can have it back now.
 			Shell.SU.run("mv  /data/data/com.google.android.gsf/databases/gservices.db /data/data/com.google.android.gsf/databases/gservices.db.old\n");
@@ -159,6 +159,7 @@ class UpdateDatabase implements ToggleButton.OnCheckedChangeListener {
 			Shell.SU.run("am force-stop com.google.android.gsf\n");
 			Shell.SU.run("am force-stop " + app_name + "\n");
 
+            // Make sure nothing is left behind, as to not interrupt future changes.
 			Shell.SU.run("rm -f /data/data/com.r3pwn.LetMeMakeYouSomeSandwiches/databases/*\n");
 
 			return "Done";
