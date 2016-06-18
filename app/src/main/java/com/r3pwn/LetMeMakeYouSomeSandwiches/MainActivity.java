@@ -128,8 +128,8 @@ public class MainActivity extends Activity {
         }
 
 
-        finskyDebugToggle.setOnClickListener(new UpdateDatabase(this, finskyDebug2Toggle, "finsky.debug_options_enabled", "finsky_status", "com.android.vending"));
-        finskyDebug2Toggle.setOnClickListener(new UpdateDatabase(this, finskyDebugToggle, "finsky.dcb_debug_options_enabled", "finsky2_status", "com.android.vending"));
+        finskyDebugToggle.setOnClickListener(new UpdateDatabase(this, finskyDebugToggle, "finsky.debug_options_enabled", "finsky_status", "com.android.vending"));
+        finskyDebug2Toggle.setOnClickListener(new UpdateDatabase(this, finskyDebug2Toggle, "finsky.dcb_debug_options_enabled", "finsky2_status", "com.android.vending"));
         babelDebugToggle.setOnClickListener(new UpdateDatabase(this, babelDebugToggle, "babel_debugging", "babel_status", "com.google.android.talk"));
         babelGVToggle.setOnClickListener(new UpdateDatabase(this, babelGVToggle, "babel_gv_sms", "babelgv_status", "com.google.android.talk"));
         musicDebugToggle.setOnClickListener(new UpdateDatabase(this, musicDebugToggle, "music_debug_logs_enabled", "music_status", "com.google.android.music"));
