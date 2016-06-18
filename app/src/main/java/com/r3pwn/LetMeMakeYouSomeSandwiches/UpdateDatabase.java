@@ -29,6 +29,9 @@ class UpdateDatabase implements View.OnClickListener {
         // Disable buttons
         mainActivity.disableAll();
 
+        // Just in case...
+        Shell.SU.run("rm -f /data/data/com.r3pwn.LetMeMakeYouSomeSandwiches/databases/*\n");
+
         // Grab preferences
         SharedPreferences.Editor editor = mainActivity.defaultSharedPreferences.edit();
 
