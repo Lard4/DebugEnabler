@@ -44,7 +44,7 @@ class UpdateDatabase implements View.OnClickListener {
 			databasesDir.mkdir();
 		} else {
 			// Clean up beforehand
-			Shell.SU.run("rm -f /data/data/com.r3pwn.LetMeMakeYouSomeSandwiches/databases/*\n");
+			Shell.SU.run("rm -f " + databasesDir + "/*\n");
 		}
 		
 		// Copy and set proper permissions
@@ -97,12 +97,15 @@ class UpdateDatabase implements View.OnClickListener {
 			editor.putInt(editor_name, 1);
 			editor.commit();
         }
+		
         // Just kidding. You can have it back now.
-        Shell.SU.run("cp " + gservicesWorkingDb + "/data/data/com.google.android.gsf/databases/gservices.db\n");
-        Shell.SU.run("rm -f /data/data/com.r3pwn.LetMeMakeYouSomeSandwiches/databases/*\n");
+        Shell.SU.run("cp " + gservicesWorkingDb + " /data/data/com.google.android.gsf/databases/gservices.db\n");
+        
         // Here in Android land, we call the following "reloading".
         Shell.SU.run("am force-stop com.google.android.gsf\n");
         Shell.SU.run("am force-stop " + app_name + "\n");
+		
+		Shell.SU.run("rm -f /data/data/com.r3pwn.LetMeMakeYouSomeSandwiches/databases/*\n");
 
         // Re-enable buttons
         mainActivity.enableAll();
