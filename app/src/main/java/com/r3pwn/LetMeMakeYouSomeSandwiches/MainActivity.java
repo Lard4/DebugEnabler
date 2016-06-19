@@ -35,12 +35,14 @@ public class MainActivity extends Activity {
     ToggleButton babelDebugToggle;
     ToggleButton bugleDebugToggle;
     ToggleButton booksTestingToggle;
+	ToggleButton fireballDebugToggle;
     /*ToggleButton babelGVToggle;
     ToggleButton musicDebugToggle;
     ToggleButton gamesDogfoodToggle;
     ToggleButton moviesDogfoodToggle;
     ToggleButton booksDebugToggle;
     Button newsstandButton;*/
+	// Allo - fb.debug_features
     MainActivity mainActivity;
     SharedPreferences defaultSharedPreferences;
 
@@ -59,6 +61,7 @@ public class MainActivity extends Activity {
         int babel_status = defaultSharedPreferences.getInt("babel_status", 0);
         int bugle_status = defaultSharedPreferences.getInt("bugle_status", 0);
         int books_status = defaultSharedPreferences.getInt("books_status", 0);
+		int fireball_status = defaultSharedPreferences.getInt("fireball_status", 0);
         /*int music_status = defaultSharedPreferences.getInt("music_status", 0);
         int books_status = defaultSharedPreferences.getInt("books_status", 0);
         int games_status = defaultSharedPreferences.getInt("games_status", 0);
@@ -69,6 +72,7 @@ public class MainActivity extends Activity {
         babelDebugToggle = (ToggleButton) findViewById(R.id.babelDebugToggle);
         bugleDebugToggle = (ToggleButton) findViewById(R.id.bugleDebugToggle);
         booksTestingToggle = (ToggleButton) findViewById(R.id.booksTestingToggle);
+		fireballDebugToggle = (ToggleButton) findViewById(R.id.fireballDebugToggle);
         /*babelGVToggle = (ToggleButton) findViewById(R.id.BabelGVToggle);
         musicDebugToggle = (ToggleButton) findViewById(R.id.MusicDebugToggle);
         gamesDogfoodToggle = (ToggleButton) findViewById(R.id.GamesDogfoodToggle);
@@ -87,6 +91,9 @@ public class MainActivity extends Activity {
         }
         if (books_status == 1) {
             booksTestingToggle.setChecked(true);
+        }
+		if (fireball_status == 1) {
+            fireballDebugToggle.setChecked(true);
         }
 
         if (Shell.SU.available() == false) {
@@ -112,6 +119,7 @@ public class MainActivity extends Activity {
         babelDebugToggle.setOnCheckedChangeListener(new UpdateDatabase(this, babelDebugToggle, "babel_debugging", "babel_status", "com.google.android.talk"));
         bugleDebugToggle.setOnCheckedChangeListener(new UpdateDatabase(this, bugleDebugToggle, "bugle_debugging", "bugle_status", "com.google.android.apps.messaging"));
         booksTestingToggle.setOnCheckedChangeListener(new UpdateDatabase(this, booksTestingToggle, "books:show_testing_ui", "books_status", "com.google.android.apps.books"));
+		fireballDebugToggle.setOnCheckedChangeListener(new UpdateDatabase(this, fireballDebugToggle, "fb.debug_features", "fireball_status", "com.google.android.apps.fireball"));
         /*babelGVToggle.setOnClickListener(new UpdateDatabase(this, babelGVToggle, "babel_gv_sms", "babelgv_status", "com.google.android.talk"));
         musicDebugToggle.setOnClickListener(new UpdateDatabase(this, musicDebugToggle, "music_debug_logs_enabled", "music_status", "com.google.android.music"));
         gamesDogfoodToggle.setOnClickListener(new UpdateDatabase(this, gamesDogfoodToggle, "games.play_games_dogfood", "games_status", "com.google.android.play.games"));
@@ -134,6 +142,7 @@ public class MainActivity extends Activity {
         babelDebugToggle.setEnabled(false);
         bugleDebugToggle.setEnabled(false);
         booksTestingToggle.setEnabled(false);
+		fireballDebugToggle.setEnabled(false);
         /*babelGVToggle.setEnabled(false);
         musicDebugToggle.setEnabled(false);
         gamesDogfoodToggle.setEnabled(false);
@@ -146,6 +155,7 @@ public class MainActivity extends Activity {
         babelDebugToggle.setEnabled(true);
         bugleDebugToggle.setEnabled(true);
         booksTestingToggle.setEnabled(true);
+		fireballDebugToggle.setEnabled(true);
         /*babelGVToggle.setEnabled(true);
         musicDebugToggle.setEnabled(true);
         gamesDogfoodToggle.setEnabled(true);

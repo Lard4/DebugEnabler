@@ -35,6 +35,13 @@
 			android:layout_alignParentRight="true"
 			android:id="@+id/booksTestingToggle"/>
 
+		<ToggleButton
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:layout_below="@id/booksTestingToggle"
+			android:layout_alignParentRight="true"
+			android:id="@+id/fireballDebugToggle"/>
+
 		<TextView
 			android:layout_height="wrap_content"
 			android:layout_width="wrap_content"
@@ -72,6 +79,16 @@
 			android:layout_toLeftOf="@id/booksTestingToggle"
 			android:layout_alignBottom="@id/booksTestingToggle"
 			android:layout_alignTop="@id/booksTestingToggle"
+			android:layout_alignParentLeft="true"
+			android:gravity="center"/>
+
+		<TextView
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:text="Allo Debug Features"
+			android:layout_toLeftOf="@id/fireballDebugToggle"
+			android:layout_alignTop="@id/fireballDebugToggle"
+			android:layout_alignBottom="@id/fireballDebugToggle"
 			android:layout_alignParentLeft="true"
 			android:gravity="center"/>
 
