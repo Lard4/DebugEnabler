@@ -15,8 +15,8 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
- // Please note that I did not write all of this myself. I had some
- // help from Joshua Jones <awesomebing1@gmail.com>.
+// Please note that I did not write all of this myself. I had some
+// help from Joshua Jones <awesomebing1@gmail.com>.
 package com.r3pwn.LetMeMakeYouSomeSandwiches;
 
 import android.content.Context;
@@ -49,15 +49,17 @@ class UpdateDatabase implements ToggleButton.OnCheckedChangeListener, View.OnCli
 	private SQLiteDatabase db;
 	private SharedPreferences.Editor editor;
 
-    UpdateDatabase(MainActivity mainActivity, ToggleButton toggleButton, String database_name, String editor_name, String app_name) {
+    UpdateDatabase(MainActivity mainActivity, ToggleButton toggleButton, String database_name, String editor_name, String app_name)
+	{
 		this.toggleButton = toggleButton;
         this.database_name = database_name;
         this.editor_name = editor_name;
         this.app_name = app_name;
         this.mainActivity = mainActivity;
     }
-	
-	UpdateDatabase(CustomDebug customDebug, Button button, String entry_name, String entry_value, String app_name, Boolean override) {
+
+	UpdateDatabase(CustomDebug customDebug, Button button, String entry_name, String entry_value, String app_name, Boolean override)
+	{
 		this.button = button;
         this.database_name = entry_name;
 		this.database_value = entry_value;
@@ -67,42 +69,54 @@ class UpdateDatabase implements ToggleButton.OnCheckedChangeListener, View.OnCli
     }
 
     @Override
-    public void onCheckedChanged(CompoundButton cb, boolean checked) {
+    public void onCheckedChanged(CompoundButton cb, boolean checked)
+	{
 		// load the operation in the background, as to not lag the hell out of the main thread
 		new BackgroundDatabaseInjector().execute();
 	}
-	
+
 	@Override
 	public void onClick(View p1)
 	{
 		new BackgroundDatabaseInjector().execute();
 	}
-	
-	private boolean isCompletelyWritten(File file) {
+
+	private boolean isCompletelyWritten(File file)
+	{
 		// this was taken from http://stackoverflow.com/a/11242648
 		RandomAccessFile stream = null;
-		try {
+		try
+		{
 			stream = new RandomAccessFile(file, "rw");
 			return true;
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			Log.d("INFO", "Skipping file " + file.getName() + " for this iteration due to it not being completely written.");
-		} finally {
-			if (stream != null) {
-				try {
+		}
+		finally
+		{
+			if (stream != null)
+			{
+				try
+				{
 					stream.close();
-				} catch (IOException e) {
+				}
+				catch (IOException e)
+				{
 					Log.d("INFO", "Exception during closing file " + file.getName());
 				}
 			}
 		}
 		return false;
 	}
-	
+
 	private class BackgroundDatabaseInjector extends AsyncTask<String, Void, String>
 	{
 
         @Override
-        protected String doInBackground(String... params) {
+        protected String doInBackground(String... params)
+		{
 			// Grab preferences
 			if (!override)
 			{
@@ -117,7 +131,8 @@ class UpdateDatabase implements ToggleButton.OnCheckedChangeListener, View.OnCli
 			if (!databasesDir.exists())
 			{
 				databasesDir.mkdir();
-			} else {
+			} else
+			{
 				// Clean up beforehand
 				Shell.SU.run("rm -f " + databasesDir + "/*\n");
 			}
@@ -155,34 +170,44 @@ class UpdateDatabase implements ToggleButton.OnCheckedChangeListener, View.OnCli
 			if (!override)
 			{
 				db = mainActivity.openOrCreateDatabase(gservicesWorkingDb.toString(), Context.MODE_WORLD_READABLE, null);
-			} else {
+			} else
+			{
 				db = customDebug.openOrCreateDatabase(gservicesWorkingDb.toString(), Context.MODE_WORLD_READABLE, null);
 			}
-				
+
 			// Check toggle button status
 			if (!override)
 			{
-				if (toggleButton.isChecked()) {
+				if (toggleButton.isChecked())
+				{
 					// It's on, so we'll enable debugging.
-					try {
+					try
+					{
 						db.execSQL("INSERT INTO overrides (name, value) VALUES ('" + database_name + "', 'true');");
-					} catch (android.database.SQLException sqle) {
+					}
+					catch (android.database.SQLException sqle)
+					{
 						// If this errors out, then that means the key is already in the database.
 						// Nothing needs to be inserted, so we can just update the key.
 					}
 					db.execSQL("UPDATE overrides SET value='true' WHERE name='" + database_name + "';");
 					editor.putInt(editor_name, 1);
 					editor.commit();
-				} else {
+				} else
+				{
 					// Let's disable debugging.
 					db.execSQL("DELETE FROM overrides WHERE name='" + database_name + "';");
 					editor.putInt(editor_name, 0);
 					editor.commit();
 				}
-			} else {
-				try {
+			} else
+			{
+				try
+				{
 					db.execSQL("INSERT INTO overrides (name, value) VALUES ('" + database_name + "', '" + database_value + "');");
-				} catch (android.database.SQLException sqle) {
+				}
+				catch (android.database.SQLException sqle)
+				{
 					// If this errors out, then that means the key is already in the database.
 					// Nothing needs to be inserted, so we can just update the key.
 				}
@@ -207,22 +232,28 @@ class UpdateDatabase implements ToggleButton.OnCheckedChangeListener, View.OnCli
 
 			return "Done";
 		}
-		
+
 		@Override
-        protected void onPostExecute(String result) {
-			if (!override) {
+        protected void onPostExecute(String result)
+		{
+			if (!override)
+			{
 				Toast.makeText(mainActivity.getApplicationContext(), "Changes applied.", Toast.LENGTH_SHORT).show();
-			} else {
+			} else
+			{
 				Toast.makeText(customDebug.getApplicationContext(), "Changes applied.", Toast.LENGTH_SHORT).show();
 			}
 			writeProgress.cancel();
 		}
 
         @Override
-        protected void onPreExecute() {
-			if (!override) {
+        protected void onPreExecute()
+		{
+			if (!override)
+			{
 				writeProgress = new ProgressDialog(mainActivity);
-			} else {
+			} else
+			{
 				writeProgress = new ProgressDialog(customDebug);
 			}
 			writeProgress.setCancelable(false);
@@ -232,6 +263,7 @@ class UpdateDatabase implements ToggleButton.OnCheckedChangeListener, View.OnCli
 		}
 
         @Override
-        protected void onProgressUpdate(Void... values) {}
+        protected void onProgressUpdate(Void... values)
+		{}
 	}
 }

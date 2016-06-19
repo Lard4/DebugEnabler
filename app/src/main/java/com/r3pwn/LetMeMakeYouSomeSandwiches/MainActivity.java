@@ -1,20 +1,20 @@
 /* MainActivity.java - the activity that gets launched when the user taps the icon
-Copyright (C) 2016 Greg Willard <wickett06@gmail.com>
+ Copyright (C) 2016 Greg Willard <wickett06@gmail.com>
 
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version.
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU General Public License
+ as published by the Free Software Foundation; either version 2
+ of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-*/
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ */
 // Please note that I did not write all of this myself. I had some
 // help from Joshua Jones <awesomebing1@gmail.com>.
 package com.r3pwn.LetMeMakeYouSomeSandwiches;
@@ -32,7 +32,8 @@ import android.widget.*;
 import android.view.*;
 import android.content.*;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity
+{
 
     ToggleButton finskyDebugToggle;
     ToggleButton babelDebugToggle;
@@ -41,21 +42,23 @@ public class MainActivity extends Activity {
 	ToggleButton fireballDebugToggle;
 	Button custom;
     /*ToggleButton babelGVToggle;
-    ToggleButton musicDebugToggle;
-    ToggleButton gamesDogfoodToggle;
-    ToggleButton moviesDogfoodToggle;
-    ToggleButton booksDebugToggle;
-    Button newsstandButton;*/
+	 ToggleButton musicDebugToggle;
+	 ToggleButton gamesDogfoodToggle;
+	 ToggleButton moviesDogfoodToggle;
+	 ToggleButton booksDebugToggle;
+	 Button newsstandButton;*/
 	// Allo - fb.debug_features
     MainActivity mainActivity;
     SharedPreferences defaultSharedPreferences;
 
-    public MainActivity() {
+    public MainActivity()
+	{
         mainActivity = this;
     }
 
     @Override
-    public void onCreate(Bundle bundle) {
+    public void onCreate(Bundle bundle)
+	{
         // Show view
         super.onCreate(bundle);
         setContentView(R.layout.layout_main);
@@ -67,9 +70,9 @@ public class MainActivity extends Activity {
         int books_status = defaultSharedPreferences.getInt("books_status", 0);
 		int fireball_status = defaultSharedPreferences.getInt("fireball_status", 0);
         /*int music_status = defaultSharedPreferences.getInt("music_status", 0);
-        int books_status = defaultSharedPreferences.getInt("books_status", 0);
-        int games_status = defaultSharedPreferences.getInt("games_status", 0);
-        int movies_status = defaultSharedPreferences.getInt("movies_status", 0);*/
+		 int books_status = defaultSharedPreferences.getInt("books_status", 0);
+		 int games_status = defaultSharedPreferences.getInt("games_status", 0);
+		 int movies_status = defaultSharedPreferences.getInt("movies_status", 0);*/
 
         // Setup
         finskyDebugToggle = (ToggleButton) findViewById(R.id.finskyDebugToggle);
@@ -79,29 +82,35 @@ public class MainActivity extends Activity {
 		fireballDebugToggle = (ToggleButton) findViewById(R.id.fireballDebugToggle);
 		custom = (Button)findViewById(R.id.customButton);
         /*babelGVToggle = (ToggleButton) findViewById(R.id.BabelGVToggle);
-        musicDebugToggle = (ToggleButton) findViewById(R.id.MusicDebugToggle);
-        gamesDogfoodToggle = (ToggleButton) findViewById(R.id.GamesDogfoodToggle);
-        moviesDogfoodToggle = (ToggleButton) findViewById(R.id.MoviesDogfoodToggle);
-        booksDebugToggle = (ToggleButton) findViewById(R.id.BooksDebugToggle);
-        newsstandButton = (Button) findViewById(R.id.newsstandButton);*/
+		 musicDebugToggle = (ToggleButton) findViewById(R.id.MusicDebugToggle);
+		 gamesDogfoodToggle = (ToggleButton) findViewById(R.id.GamesDogfoodToggle);
+		 moviesDogfoodToggle = (ToggleButton) findViewById(R.id.MoviesDogfoodToggle);
+		 booksDebugToggle = (ToggleButton) findViewById(R.id.BooksDebugToggle);
+		 newsstandButton = (Button) findViewById(R.id.newsstandButton);*/
 
-        if (finsky_status == 1) {
+        if (finsky_status == 1)
+		{
             finskyDebugToggle.setChecked(true);
         }
-        if (babel_status == 1) {
+        if (babel_status == 1)
+		{
             babelDebugToggle.setChecked(true);
         }
-        if (bugle_status == 1) {
+        if (bugle_status == 1)
+		{
             bugleDebugToggle.setChecked(true);
         }
-        if (books_status == 1) {
+        if (books_status == 1)
+		{
             booksTestingToggle.setChecked(true);
         }
-		if (fireball_status == 1) {
+		if (fireball_status == 1)
+		{
             fireballDebugToggle.setChecked(true);
         }
 
-        if (Shell.SU.available() == false) {
+        if (Shell.SU.available() == false)
+		{
             // Disable all buttons
             disableAll();
             // Create dialog
@@ -109,12 +118,13 @@ public class MainActivity extends Activity {
             noRoot.setTitle("No root");
             noRoot.setMessage("You aren't rooted. This app can't function without root. All functionality has been disabled.");
             noRoot.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    // Dismiss dialog
-                    dialog.dismiss();
-                }
-            });
+					@Override
+					public void onClick(DialogInterface dialog, int which)
+					{
+						// Dismiss dialog
+						dialog.dismiss();
+					}
+				});
             AlertDialog alertDialog = noRoot.create();
             alertDialog.show();
         }
@@ -126,24 +136,29 @@ public class MainActivity extends Activity {
         booksTestingToggle.setOnCheckedChangeListener(new UpdateDatabase(this, booksTestingToggle, "books:show_testing_ui", "books_status", "com.google.android.apps.books"));
 		fireballDebugToggle.setOnCheckedChangeListener(new UpdateDatabase(this, fireballDebugToggle, "fb.debug_features", "fireball_status", "com.google.android.apps.fireball"));
 		custom.setOnClickListener(new View.OnClickListener() {
-				public void onClick(View view) {
-					try {
+				public void onClick(View view)
+				{
+					try
+					{
 						mainActivity.startActivity(new Intent(mainActivity, Class.forName("com.r3pwn.LetMeMakeYouSomeSandwiches.CustomDebug")));
-					} catch (Throwable e) {
+					}
+					catch (Throwable e)
+					{
 						Toast.makeText(mainActivity.getApplicationContext(), "Could not find CustomDebug class.", Toast.LENGTH_LONG).show();
 						throw new NoClassDefFoundError(e.getMessage());
 					}
 				}
 			});
         /*babelGVToggle.setOnClickListener(new UpdateDatabase(this, babelGVToggle, "babel_gv_sms", "babelgv_status", "com.google.android.talk"));
-        musicDebugToggle.setOnClickListener(new UpdateDatabase(this, musicDebugToggle, "music_debug_logs_enabled", "music_status", "com.google.android.music"));
-        gamesDogfoodToggle.setOnClickListener(new UpdateDatabase(this, gamesDogfoodToggle, "games.play_games_dogfood", "games_status", "com.google.android.play.games"));
-        moviesDogfoodToggle.setOnClickListener(new UpdateDatabase(this, moviesDogfoodToggle, "videos:dogfood_enabled", "movies_status", "com.google.android.videos"));
-        // Launch newsstand class
-        */
+		 musicDebugToggle.setOnClickListener(new UpdateDatabase(this, musicDebugToggle, "music_debug_logs_enabled", "music_status", "com.google.android.music"));
+		 gamesDogfoodToggle.setOnClickListener(new UpdateDatabase(this, gamesDogfoodToggle, "games.play_games_dogfood", "games_status", "com.google.android.play.games"));
+		 moviesDogfoodToggle.setOnClickListener(new UpdateDatabase(this, moviesDogfoodToggle, "videos:dogfood_enabled", "movies_status", "com.google.android.videos"));
+		 // Launch newsstand class
+		 */
     }
 
-    public void disableAll() {
+    public void disableAll()
+	{
         finskyDebugToggle.setEnabled(false);
         babelDebugToggle.setEnabled(false);
         bugleDebugToggle.setEnabled(false);
@@ -151,13 +166,14 @@ public class MainActivity extends Activity {
 		fireballDebugToggle.setEnabled(false);
 		custom.setEnabled(false);
         /*babelGVToggle.setEnabled(false);
-        musicDebugToggle.setEnabled(false);
-        gamesDogfoodToggle.setEnabled(false);
-        moviesDogfoodToggle.setEnabled(false);
-        booksDebugToggle.setEnabled(false);*/
+		 musicDebugToggle.setEnabled(false);
+		 gamesDogfoodToggle.setEnabled(false);
+		 moviesDogfoodToggle.setEnabled(false);
+		 booksDebugToggle.setEnabled(false);*/
     }
 
-    public void enableAll() {
+    public void enableAll()
+	{
         finskyDebugToggle.setEnabled(true);
         babelDebugToggle.setEnabled(true);
         bugleDebugToggle.setEnabled(true);
@@ -165,9 +181,9 @@ public class MainActivity extends Activity {
 		fireballDebugToggle.setEnabled(true);
 		custom.setEnabled(true);
         /*babelGVToggle.setEnabled(true);
-        musicDebugToggle.setEnabled(true);
-        gamesDogfoodToggle.setEnabled(true);
-        moviesDogfoodToggle.setEnabled(true);
-        booksDebugToggle.setEnabled(true);*/
+		 musicDebugToggle.setEnabled(true);
+		 gamesDogfoodToggle.setEnabled(true);
+		 moviesDogfoodToggle.setEnabled(true);
+		 booksDebugToggle.setEnabled(true);*/
     }
 }
