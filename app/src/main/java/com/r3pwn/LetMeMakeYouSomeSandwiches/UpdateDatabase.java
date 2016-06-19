@@ -31,14 +31,23 @@ import android.util.*;
 import android.widget.*;
 import android.os.*;
 import android.app.*;
+import android.view.View.*;
+import android.view.*;
 
-class UpdateDatabase implements ToggleButton.OnCheckedChangeListener {
+class UpdateDatabase implements ToggleButton.OnCheckedChangeListener, View.OnClickListener
+{
 	private ToggleButton toggleButton;
+	private Button button;
     private String database_name;
+	private String database_value = "";
     private String editor_name;
     private String app_name;
     private MainActivity mainActivity;
+	private CustomDebug customDebug;
 	private ProgressDialog writeProgress;
+	private Boolean override = false;
+	private SQLiteDatabase db;
+	private SharedPreferences.Editor editor;
 
     UpdateDatabase(MainActivity mainActivity, ToggleButton toggleButton, String database_name, String editor_name, String app_name) {
 		this.toggleButton = toggleButton;
@@ -47,12 +56,27 @@ class UpdateDatabase implements ToggleButton.OnCheckedChangeListener {
         this.app_name = app_name;
         this.mainActivity = mainActivity;
     }
+	
+	UpdateDatabase(CustomDebug customDebug, Button button, String entry_name, String entry_value, String app_name, Boolean override) {
+		this.button = button;
+        this.database_name = entry_name;
+		this.database_value = entry_value;
+        this.app_name = app_name;
+        this.customDebug = customDebug;
+		this.override = override;
+    }
 
     @Override
     public void onCheckedChanged(CompoundButton cb, boolean checked) {
 		// load the operation in the background, as to not lag the hell out of the main thread
 		new BackgroundDatabaseInjector().execute();
-    }
+	}
+	
+	@Override
+	public void onClick(View p1)
+	{
+		new BackgroundDatabaseInjector().execute();
+	}
 	
 	private boolean isCompletelyWritten(File file) {
 		// this was taken from http://stackoverflow.com/a/11242648
@@ -80,7 +104,10 @@ class UpdateDatabase implements ToggleButton.OnCheckedChangeListener {
         @Override
         protected String doInBackground(String... params) {
 			// Grab preferences
-			SharedPreferences.Editor editor = mainActivity.defaultSharedPreferences.edit();
+			if (!override)
+			{
+				editor = mainActivity.defaultSharedPreferences.edit();
+			}
 
 			// Look at me. I'm the captain now.
 			File databasesDir = new File("/data/data/com.r3pwn.LetMeMakeYouSomeSandwiches/databases");
@@ -125,25 +152,41 @@ class UpdateDatabase implements ToggleButton.OnCheckedChangeListener {
 			}
 
 			// Open the database for writing
-			SQLiteDatabase db = mainActivity.openOrCreateDatabase(gservicesWorkingDb.toString(), Context.MODE_WORLD_READABLE, null);
-
+			if (!override)
+			{
+				db = mainActivity.openOrCreateDatabase(gservicesWorkingDb.toString(), Context.MODE_WORLD_READABLE, null);
+			} else {
+				db = customDebug.openOrCreateDatabase(gservicesWorkingDb.toString(), Context.MODE_WORLD_READABLE, null);
+			}
+				
 			// Check toggle button status
-			if (toggleButton.isChecked()) {
-				// It's on, so we'll enable debugging.
+			if (!override)
+			{
+				if (toggleButton.isChecked()) {
+					// It's on, so we'll enable debugging.
+					try {
+						db.execSQL("INSERT INTO overrides (name, value) VALUES ('" + database_name + "', 'true');");
+					} catch (android.database.SQLException sqle) {
+						// If this errors out, then that means the key is already in the database.
+						// Nothing needs to be inserted, so we can just update the key.
+					}
+					db.execSQL("UPDATE overrides SET value='true' WHERE name='" + database_name + "';");
+					editor.putInt(editor_name, 1);
+					editor.commit();
+				} else {
+					// Let's disable debugging.
+					db.execSQL("DELETE FROM overrides WHERE name='" + database_name + "';");
+					editor.putInt(editor_name, 0);
+					editor.commit();
+				}
+			} else {
 				try {
-					db.execSQL("INSERT INTO overrides (name, value) VALUES ('" + database_name + "', 'true');");
+					db.execSQL("INSERT INTO overrides (name, value) VALUES ('" + database_name + "', '" + database_value + "');");
 				} catch (android.database.SQLException sqle) {
 					// If this errors out, then that means the key is already in the database.
 					// Nothing needs to be inserted, so we can just update the key.
 				}
-				db.execSQL("UPDATE overrides SET value='true' WHERE name='" + database_name + "';");
-				editor.putInt(editor_name, 1);
-				editor.commit();
-			} else {
-				// Let's disable debugging.
-				db.execSQL("DELETE FROM overrides WHERE name='" + database_name + "';");
-				editor.putInt(editor_name, 0);
-				editor.commit();
+				db.execSQL("UPDATE overrides SET value='" + database_value + "' WHERE name='" + database_name + "';");
 			}
             // Close database, as we have written to it.
 			db.close();
@@ -167,13 +210,21 @@ class UpdateDatabase implements ToggleButton.OnCheckedChangeListener {
 		
 		@Override
         protected void onPostExecute(String result) {
-			Toast.makeText(mainActivity.getApplicationContext(), "Changes applied.", Toast.LENGTH_SHORT).show();
+			if (!override) {
+				Toast.makeText(mainActivity.getApplicationContext(), "Changes applied.", Toast.LENGTH_SHORT).show();
+			} else {
+				Toast.makeText(customDebug.getApplicationContext(), "Changes applied.", Toast.LENGTH_SHORT).show();
+			}
 			writeProgress.cancel();
 		}
 
         @Override
         protected void onPreExecute() {
-			writeProgress = new ProgressDialog(mainActivity);
+			if (!override) {
+				writeProgress = new ProgressDialog(mainActivity);
+			} else {
+				writeProgress = new ProgressDialog(customDebug);
+			}
 			writeProgress.setCancelable(false);
 			writeProgress.setMessage("Writing to database...");
 			writeProgress.setProgressStyle(ProgressDialog.STYLE_SPINNER);

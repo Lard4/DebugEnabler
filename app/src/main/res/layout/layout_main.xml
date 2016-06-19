@@ -92,6 +92,13 @@
 			android:layout_alignParentLeft="true"
 			android:gravity="center"/>
 
+		<Button
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:text="Custom"
+			android:layout_below="@id/fireballDebugToggle"
+			android:id="@+id/customButton"/>
+
 	</RelativeLayout>
 
 </ScrollView>
