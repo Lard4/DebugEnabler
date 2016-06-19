@@ -33,7 +33,7 @@ import android.os.*;
 import android.app.*;
 
 class UpdateDatabase implements ToggleButton.OnCheckedChangeListener {
-    private Boolean toggleButtonIsChecked;
+	private ToggleButton toggleButton;
     private String database_name;
     private String editor_name;
     private String app_name;
@@ -41,7 +41,7 @@ class UpdateDatabase implements ToggleButton.OnCheckedChangeListener {
 	private ProgressDialog writeProgress;
 
     UpdateDatabase(MainActivity mainActivity, ToggleButton toggleButton, String database_name, String editor_name, String app_name) {
-        this.toggleButtonIsChecked = toggleButton.isChecked();
+		this.toggleButton = toggleButton;
         this.database_name = database_name;
         this.editor_name = editor_name;
         this.app_name = app_name;
@@ -128,7 +128,7 @@ class UpdateDatabase implements ToggleButton.OnCheckedChangeListener {
 			SQLiteDatabase db = mainActivity.openOrCreateDatabase(gservicesWorkingDb.toString(), Context.MODE_WORLD_READABLE, null);
 
 			// Check toggle button status
-			if (toggleButtonIsChecked) {
+			if (toggleButton.isChecked()) {
 				// It's on, so we'll enable debugging.
 				try {
 					db.execSQL("INSERT INTO overrides (name, value) VALUES ('" + database_name + "', 'true');");
